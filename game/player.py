@@ -1,3 +1,11 @@
+from math import cos, radians, sin
+import random
+
+import pygame
+
+from game.config import BLACK, WINDOW_BORDER
+
+
 class Player():
     def __init__(self):
         self.active = True
