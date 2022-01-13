@@ -1,3 +1,6 @@
+from game.common import prepro
+
+
 class Controller():
     def __init__(self) -> None:
         pass
@@ -10,11 +13,13 @@ class Man_Controller(Controller):
         pass
 
     def make_move(self, args):
-        return args
+        return args[0]
 
 class DQN_Controller(Controller):
     def __init__(self, model):
-        pass
+        self.model = model
 
     def make_move(self, args):
-        return args
+        if args[0]:
+            print("hhehe")
+        return self.model.predict(args[1])

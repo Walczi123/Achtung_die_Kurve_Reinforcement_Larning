@@ -2,6 +2,8 @@ import numpy as np
 import random
 import sys
 import os
+
+from game.controllers import Man_Controller
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 import pygame.gfxdraw
@@ -12,23 +14,26 @@ from pygame.locals import *
 import gym 
 from gym import spaces
 
-from game.config import BLACK, COLORS, LEFT_KEYS, LIVING_REWARD, LOSING_REWARD, RIGHT_KEYS, WINDOW_HEIGHT, WINDOW_WIDTH, COLORS_str, LEFT_KEYS_str, RIGHT_KEYS_str 
+from game.config import BLACK, COLORS, LEFT_KEYS, LIVING_REWARD, LOSING_REWARD, RIGHT_KEYS, WINDOW_BORDER, WINDOW_HEIGHT, WINDOW_WIDTH, COLORS_str, LEFT_KEYS_str, RIGHT_KEYS_str 
 from game.player import Player
 
 pygame.init()
 
 class Achtung(gym.Env):
-    def __init__(self,n=1,id=0, render_game:bool = False, speed:int = 12):
+    def __init__(self,n=1,id=0, players_controllers:list = None, render_game:bool = False, speed:int = 12, width:int = WINDOW_WIDTH, height:int=WINDOW_HEIGHT):
         # print('Achtung Die Kurve!')
         # pygame.display.set_caption('Achtung Die Kurve!')
         
         # pygame
         self.speed = speed
-        self.window_width = WINDOW_WIDTH
-        self.window_height = WINDOW_HEIGHT
+        self.border = WINDOW_BORDER
+        self.window_width = width
+        self.window_height = height
+        if self.window_height != WINDOW_HEIGHT or self.window_width != WINDOW_WIDTH:
+            self.border = min(self.window_height, self.window_width)/4
         self.window_buffer = 1
         self.fps_clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT))
+        self.screen = pygame.display.set_mode((self.window_width, self.window_height))
         self.display = pygame.Surface(self.screen.get_size())
         self.render_game = render_game
         self.cache_frames = False
@@ -44,11 +49,12 @@ class Achtung(gym.Env):
         self.verbose = True
         self.current_player = 0
         self.state_cache = np.array(pygame.surfarray.array3d(self.display), dtype=np.uint8)
+        self.players_controllers = self.valid_players_controllers(players_controllers)
 
         # gym
         self.action_space = spaces.Discrete(3)
         self.observation_space = spaces.Box(low=0, high=255,
-            shape=(WINDOW_HEIGHT, WINDOW_WIDTH, 3), dtype=np.uint8)
+            shape=(self.window_width, self.window_height , 3), dtype=np.uint8)
         if self.render_game == False:
             os.environ["SDL_VIDEODRIVER"] = "dummy"
 
@@ -57,6 +63,12 @@ class Achtung(gym.Env):
         self.lossing_reward = LOSING_REWARD
 
         self.reset()
+
+    def valid_players_controllers(self, players_controllers):
+        if players_controllers is None or len(players_controllers) != self.n:
+            return [Man_Controller() for _ in range(self.n)]
+        return players_controllers
+
 
     def render(self):
         self.screen.blit(self.display, (0, 0))
@@ -69,7 +81,7 @@ class Achtung(gym.Env):
 
     def init_players(self,n):
         # generate players
-        players = [Player() for i in range(n)]
+        players = [Player(self.border) for i in range(n)]
         for i in range(n):
             players[i].gen(self)
             players[i].color = COLORS[i]
@@ -188,12 +200,13 @@ class Achtung(gym.Env):
         return state, reward, done, {}
 
     def play(self):
-        # game
         done = False
+        obs = self.state()
         while not done:
             for i in range(self.n):
                 action = keyboard_input(self)
-                done = self.step(action)[2]
+                action = self.players_controllers[i].make_move([action, obs])
+                obs, reward, done, info = self.step(action)
 
 def valid_number_players(number_of_players:int = 1):
     # input number of players
