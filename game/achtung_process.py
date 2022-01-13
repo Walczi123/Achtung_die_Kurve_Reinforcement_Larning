@@ -28,16 +28,16 @@ class AchtungProcess(gym.Env):
             break
 
       obs_new = np.maximum(_obs[-1], _obs[-2] if len(_obs) > 1 else _obs[-1])
-      self.state = np.roll(self.state, shift=-1,axis=0)
-      self.state[-1] = obs_new
+      # self.state = np.roll(self.state, shift=-1,axis=0)
+      self.state = obs_new
 
       return self.state, np.sum(_reward), done, {}   
 
     def reset(self):
       self.state = np.zeros((self.obs_len, self.env.window_width, self.env.window_height))
       obs = self.env.reset()
-      self.state[-1] = obs[:,:,0]
-
+      self.state = obs
+      
       return self.state
 
     def render(self):
