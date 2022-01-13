@@ -2,9 +2,9 @@ import pygame
 import numpy as np
 
 # game size
-WINDOW_HEIGHT = 520
-WINDOW_WIDTH = 520
-WINDOW_BORDER = 75
+WINDOW_HEIGHT = 400
+WINDOW_WIDTH = 400
+WINDOW_BORDER = 60
 
 # observation
 DOWNSCALE = 4

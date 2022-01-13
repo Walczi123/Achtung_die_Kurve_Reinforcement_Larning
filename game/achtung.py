@@ -33,6 +33,7 @@ class Achtung(gym.Env):
             self.border = min(self.window_height, self.window_width)/4
         self.window_buffer = 1
         self.fps_clock = pygame.time.Clock()
+        # print((self.window_width, self.window_height))
         self.screen = pygame.display.set_mode((self.window_width, self.window_height))
         self.display = pygame.Surface(self.screen.get_size())
         self.render_game = render_game
@@ -77,7 +78,7 @@ class Achtung(gym.Env):
     def state(self):
         if self.current_player == 0:
             self.state_cache = np.array(pygame.surfarray.array3d(self.display), dtype=np.uint8)
-        return self.state_cache
+        return self.state_cache.T
 
     def init_players(self,n):
         # generate players

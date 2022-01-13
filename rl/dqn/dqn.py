@@ -1,8 +1,8 @@
 import gym
 import sys
 
-from game.config import WINDOW_HEIGHT, WINDOW_WIDTH
 sys.path.append('./../../')
+from game.config import WINDOW_HEIGHT, WINDOW_WIDTH
 from game.achtung_process import AchtungProcess;
 from stable_baselines3.common.torch_layers import BaseFeaturesExtractor
 from stable_baselines3 import DQN
