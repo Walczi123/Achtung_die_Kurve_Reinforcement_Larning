@@ -12,7 +12,7 @@ from pygame.locals import *
 import gym 
 from gym import spaces
 
-from game.config import BLACK, COLORS, LEFT_KEYS, RIGHT_KEYS, WINDOW_HEIGHT, WINDOW_WIDTH, COLORS_str, LEFT_KEYS_str, RIGHT_KEYS_str 
+from game.config import BLACK, COLORS, LEFT_KEYS, LIVING_REWARD, LOSING_REWARD, RIGHT_KEYS, WINDOW_HEIGHT, WINDOW_WIDTH, COLORS_str, LEFT_KEYS_str, RIGHT_KEYS_str 
 from game.player import Player
 
 pygame.init()
@@ -51,6 +51,10 @@ class Achtung(gym.Env):
             shape=(WINDOW_HEIGHT, WINDOW_WIDTH, 3), dtype=np.uint8)
         if self.render_game == False:
             os.environ["SDL_VIDEODRIVER"] = "dummy"
+
+        #rewards
+        self.living_reward =  LIVING_REWARD
+        self.lossing_reward = LOSING_REWARD
 
         self.reset()
 
@@ -139,9 +143,9 @@ class Achtung(gym.Env):
 
     def reward(self):
         if self.game_over == False:
-            return 1.0 # nominal reward
+            return self.living_reward # nominal reward
         else:
-            return -1.0 # losing reward
+            return self.lossing_reward # losing reward
     
     def to_play(self):
         return self.current_player
