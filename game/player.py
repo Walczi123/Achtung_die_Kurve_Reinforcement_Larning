@@ -7,7 +7,7 @@ from game.config import BLACK, WINDOW_BORDER
 
 
 class Player():
-    def __init__(self):
+    def __init__(self, border:int = WINDOW_BORDER):
         self.active = True
         self.color = None
         self.score = 0
@@ -15,10 +15,11 @@ class Player():
         self.x = 0
         self.y = 0
         self.angle = 0
+        self.border = border
 
     def gen(self, game):
-        self.x = random.randrange(WINDOW_BORDER, game.window_width - WINDOW_BORDER)
-        self.y = random.randrange(WINDOW_BORDER, game.window_height - WINDOW_BORDER)
+        self.x = random.randrange(self.border, game.window_width - self.border)
+        self.y = random.randrange(self.border, game.window_height - self.border)
         self.angle = random.randrange(0, 360)
 
     def move(self):

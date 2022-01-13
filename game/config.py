@@ -2,9 +2,9 @@ import pygame
 import numpy as np
 
 # game size
-WINDOW_HEIGHT = 320
-WINDOW_WIDTH = 320
-WINDOW_BORDER = 50
+WINDOW_HEIGHT = 520
+WINDOW_WIDTH = 520
+WINDOW_BORDER = 75
 
 # observation
 DOWNSCALE = 4
@@ -26,3 +26,7 @@ LEFT_KEYS = [pygame.K_LEFT, pygame.K_a, pygame.K_v, pygame.K_k]
 LEFT_KEYS_str = ['<-', 'a', 'v', 'k']
 RIGHT_KEYS = [pygame.K_RIGHT, pygame.K_s, pygame.K_b, pygame.K_l]
 RIGHT_KEYS_str = ['->','s','b','l']
+
+#rewards
+LIVING_REWARD = 1
+LOSING_REWARD = -1
