@@ -68,7 +68,7 @@ class Policy():
 
         self.gamma = args.gamma
         # Episode policy and reward history 
-        self.policy_history = Variable(torch.Tensor()).to(device) 
+        self.policy_history = Variable(torch.Tensor())
         self.reward_episode = []
         # Overall reward and loss history
         self.reward_history = []
@@ -76,17 +76,8 @@ class Policy():
         self.net = CNN(h, w, c, na)
 
     def dump(self, model_file):
-        if torch.cuda.device_count() > 1:
-            torch.save(self.net.module, model_file)
-        else:
-            torch.save(self.net, model_file)
+        torch.save(self.net, model_file)
 
-if torch.cuda.is_available():
-    device = torch.device("cuda")
-    print("Training on GPU \n")
-else:
-    device = torch.device("cpu")
-    print("Training on CPU")
 
 # y = torch.from_numpy(obs.astype(np.float32)).unsqueeze(0)
 # print(y.shape)
@@ -94,9 +85,6 @@ else:
 # model.forward(y)
 policy = Policy(80,80,4,3)
 
-if torch.cuda.device_count() > 1:
-    print("Let's use", torch.cuda.device_count(), "GPUs!")
-policy.net.to(device)
 
 optimizer = optim.Adam(policy.net.parameters(), lr=1.0e-5)
 # optimizer = optim.SGD(policy.net.parameters(), lr=1e-2, momentum=0.9)
@@ -104,7 +92,6 @@ eps = np.finfo(np.float32).eps.item()
 
 def select_action(state):
     state = torch.from_numpy(state.astype(np.float32)).unsqueeze(0) 
-    state = state.to(device)
     probs = policy.net(state)
     m = Categorical(probs)
     action = m.sample()
@@ -125,7 +112,7 @@ def update_policy():
     rewards = (rewards - rewards.mean()) / (rewards.std() + np.finfo(np.float32).eps)
     
     # Calculate loss
-    loss = (torch.sum(torch.mul(policy.policy_history, Variable(rewards).to(device)).mul(-1), -1))
+    loss = (torch.sum(torch.mul(policy.policy_history, Variable(rewards)).mul(-1), -1))
     
     # Update network weights
     optimizer.zero_grad()
@@ -135,7 +122,7 @@ def update_policy():
     #Save and intialize episode history counters
     policy.loss_history.append(loss.item())
     policy.reward_history.append(np.sum(policy.reward_episode))
-    policy.policy_history = Variable(torch.Tensor()).to(device) 
+    policy.policy_history = Variable(torch.Tensor())
     policy.reward_episode= []
 
 
@@ -221,5 +208,5 @@ def eval_pol():
 
 
 if __name__ == '__main__':
-    #main()
-    eval_pol()
+    main()
+    # eval_pol()
