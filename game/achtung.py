@@ -3,7 +3,7 @@ import random
 import sys
 import os
 
-from game.controllers import Man_Controller
+from game.controllers import Controller
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 import pygame.gfxdraw
@@ -67,7 +67,7 @@ class Achtung(gym.Env):
 
     def valid_players_controllers(self, players_controllers):
         if players_controllers is None or len(players_controllers) != self.n:
-            return [Man_Controller() for _ in range(self.n)]
+            return [Controller() for _ in range(self.n)]
         return players_controllers
 
 
@@ -94,6 +94,7 @@ class Achtung(gym.Env):
         self.players[self.current_player].color = COLORS[self.current_player]
 
     def reset(self):
+        self.playing_players = [i for i in range(self.n)]
         self.game_over = False
         self.first_step = True
         self.players_active = self.n
@@ -146,6 +147,7 @@ class Achtung(gym.Env):
             # checking if someone fails
             if player.collision(self):
                 self.players_active -= 1
+                self.playing_players.remove(i)
             player.draw(self)
             player.move()
 
@@ -208,6 +210,8 @@ class Achtung(gym.Env):
                 action = keyboard_input(self)
                 action = self.players_controllers[i].make_move([action, obs])
                 obs, reward, done, info = self.step(action)
+        if self.n > 1:
+            return self.playing_players[0]
 
 def valid_number_players(number_of_players:int = 1):
     # input number of players

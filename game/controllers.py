@@ -1,25 +1,51 @@
-from game.common import prepro
+import random
 
 
 class Controller():
-    def __init__(self) -> None:
-        pass
+    def __init__(self):
+        self.name = 'Controller'
 
     def make_move(self, args):
-        pass
+        return args[0]
 
 class Man_Controller(Controller):
     def __init__(self) -> None:
-        pass
+        self.name = 'Man'
 
     def make_move(self, args):
         return args[0]
 
 class DQN_Controller(Controller):
     def __init__(self, model):
+        self.name = 'DQN'
         self.model = model
 
     def make_move(self, args):
         if args[0]:
-            print("hhehe")
-        return self.model.predict(args[1])
+            print("nope")
+        action = self.model.predict(args[1])
+        print(action)
+        return action[0]
+
+class CNN_Controller(Controller):
+    def __init__(self, select_action):
+        self.name = 'CNN'
+        self.select_action = select_action
+
+    def make_move(self, args):
+        if args[0]:
+            print("nope")
+        action = self.select_action(args[1])
+        print(action)
+        return action
+
+class Random_Controller(Controller):
+    def __init__(self):
+        self.name = 'Random'
+
+    def make_move(self, args):
+        if args[0]:
+            print("nope")
+        action = random.choice([0,1,2])
+        print(action)
+        return action
