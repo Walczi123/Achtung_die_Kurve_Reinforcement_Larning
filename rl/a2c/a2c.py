@@ -42,7 +42,7 @@ class CustomCNN(BaseFeaturesExtractor):
     def forward(self, observations: th.Tensor) -> th.Tensor:
         return self.linear(self.cnn(observations))
 
-def get_dqn_model():
+def get_a2c_model():
     env = AchtungProcess(n=1, height=WINDOW_HEIGHT, width=WINDOW_WIDTH)
 
     policy_kwargs = dict(
