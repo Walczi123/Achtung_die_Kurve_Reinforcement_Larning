@@ -152,11 +152,8 @@ class AchtungDieKurve(gym.Env):
         self.action_space = spaces.Discrete(len(self._action_set))
         self.observation_space = spaces.Box(low=0, high=WINWIDTH, shape=(12,), dtype = np.uint8)
         self.rewards = {    # TODO: take as input
-                    "positive": 1.0,
-                    "negative": -1.0,
                     "tick": 1,
-                    "loss": 0,
-                    "win": 5.0
+                    "loosing": -1
                 }
         self.BG_COLOR = BG_COLOR
 
@@ -370,6 +367,8 @@ class AchtungDieKurve(gym.Env):
         reward = self.act(self._action_set[a])
         state = self.getGameState()
         terminal = self.game_over()
+        if terminal:
+            reward = self.rewards["loosing"]
         return state, reward, terminal, {}
 
     def reset(self):

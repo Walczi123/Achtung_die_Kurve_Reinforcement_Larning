@@ -2,9 +2,9 @@ import gym
 import numpy as np
 import matplotlib.pyplot as plt
 from v1.game.achtung import Achtung
-
+from v1.game.config import WINDOW_HEIGHT, WINDOW_WIDTH
 class AchtungProcess(gym.Env):
-    def __init__(self, n=1, frame_skip=4, obs_len=4, _id = 0, height = 80, width= 80):
+    def __init__(self, n=1, frame_skip=1, obs_len=4, _id = 0, height = WINDOW_HEIGHT, width= WINDOW_WIDTH):
       self.env = Achtung(n,_id,speed=0,render_game=False, height=height, width=width)
       self.frame_skip = frame_skip
       self.obs_len = obs_len

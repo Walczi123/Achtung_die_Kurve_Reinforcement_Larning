@@ -1,3 +1,4 @@
+import time
 import numpy as np
 import pickle
 import matplotlib.pyplot as plt
@@ -8,6 +9,7 @@ LEARN_STEP = 10 #100
 EVALUATE_POLICY_EPISODES = 10 #100
 
 def test_and_save(paramas):
+    start_time = time.time()
     (model, model_name) = paramas
     rewards = []
     stds = []
@@ -30,6 +32,7 @@ def test_and_save(paramas):
     model.save(f"./tests/models/{model_name}")
 
     print("   saved")
+    print("--- %s seconds ---" % (time.time() - start_time))
 
 def read_and_show_graph(model_name):
     with open(f"./tests/results/test_{model_name}_reward", "rb") as f:   
@@ -39,13 +42,12 @@ def read_and_show_graph(model_name):
 
     # fig, ax = plt.figure()
     plt.plot(rewards)
-    plt.xlabel('epoch (100 steps)')
+    plt.xlabel('epoch')
     plt.ylabel('episode reward')
     plt.title(model_name)
 
-    # ax.set_xticklabels([x for x in rewards])
-    # plt.xlabel.( [x for x in rewards] )
+    my_xticks = [x for x in range(LEARN_STEP, (ITERATIONS+1)*LEARN_STEP, ITERATIONS)]
+    plt.xticks(range(len(my_xticks)), my_xticks)
 
     plt.fill_between(range(len(rewards)),rewards-stds,rewards+stds,alpha=.3)
-    plt.show()
-    # plt.savefig(f'./tests/plots/{model_name}.png')
+    plt.savefig(f'./tests/plots/{model_name}.png')
