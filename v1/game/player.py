@@ -3,7 +3,7 @@ import random
 
 import pygame
 
-from game.config import BLACK, WINDOW_BORDER
+from v1.game.config import BLACK, WINDOW_BORDER
 
 
 class Player():
