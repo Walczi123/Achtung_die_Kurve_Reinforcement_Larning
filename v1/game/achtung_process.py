@@ -1,8 +1,7 @@
 import gym
 import numpy as np
 import matplotlib.pyplot as plt
-from game.achtung import Achtung
-from game.common import prepro
+from v1.game.achtung import Achtung
 
 class AchtungProcess(gym.Env):
     def __init__(self, n=1, frame_skip=4, obs_len=4, _id = 0, height = 80, width= 80):

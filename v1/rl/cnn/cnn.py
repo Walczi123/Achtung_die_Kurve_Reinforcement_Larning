@@ -1,5 +1,5 @@
 import argparse
-from game.achtung_process import AchtungProcess
+from v1.game.achtung_process import AchtungProcess
 import numpy as np
 from itertools import count
 import pickle
@@ -11,7 +11,7 @@ import torch.optim as optim
 from torch.distributions import Categorical
 from torch.autograd import Variable
 
-from game.config import WINDOW_HEIGHT, WINDOW_WIDTH
+from v1.game.config import WINDOW_HEIGHT, WINDOW_WIDTH
 
 parser = argparse.ArgumentParser(description='PyTorch REINFORCE example')
 parser.add_argument('--gamma', type=float, default=0.99, metavar='G',

@@ -1,14 +1,14 @@
 
-from game.achtung import Achtung
-from game.controllers import CNN_Controller, DQN_Controller, Man_Controller, Random_Controller
-from rl.cnn.cnn import select_action
-from rl.dqn.dqn import get_dqn_model
+from v1.game.achtung import Achtung
+from v1.game.controllers import CNN_Controller, DQN_Controller, Man_Controller, Random_Controller
+from v1.rl.cnn.cnn import select_action
+from v1.rl.dqn.dqn import get_dqn_cnn_model
 
 PLAYER_N = 4
 
 if __name__ == "__main__":
-    model = get_dqn_model()
-    model.load("./rl/dqn/dqn_achtung")
+    model = get_dqn_cnn_model()
+    # model.load("./rl/dqn/dqn_achtung")
     dqn_controller = DQN_Controller(model)
     # players_controllers = [Man_Controller(), dqn_controller]
 

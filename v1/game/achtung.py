@@ -3,7 +3,7 @@ import random
 import sys
 import os
 
-from game.controllers import Controller
+from v1.game.controllers import Controller
 os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "hide"
 import pygame
 import pygame.gfxdraw
@@ -14,8 +14,8 @@ from pygame.locals import *
 import gym 
 from gym import spaces
 
-from game.config import BLACK, COLORS, LEFT_KEYS, LIVING_REWARD, LOSING_REWARD, RIGHT_KEYS, WINDOW_BORDER, WINDOW_HEIGHT, WINDOW_WIDTH, COLORS_str, LEFT_KEYS_str, RIGHT_KEYS_str 
-from game.player import Player
+from v1.game.config import BLACK, COLORS, LEFT_KEYS, LIVING_REWARD, LOSING_REWARD, RIGHT_KEYS, WINDOW_BORDER, WINDOW_HEIGHT, WINDOW_WIDTH, COLORS_str, LEFT_KEYS_str, RIGHT_KEYS_str 
+from v1.game.player import Player
 
 pygame.init()
 

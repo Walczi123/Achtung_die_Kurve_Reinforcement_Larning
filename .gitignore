@@ -1,4 +1,7 @@
 *.zip
+tests/models/*
+tests/results/*
+tests/copy/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
