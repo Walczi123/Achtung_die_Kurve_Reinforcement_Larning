@@ -150,9 +150,7 @@ class CNN_Model():
             batch_size = 1
 
         for i in range(total_timesteps):
-            print("i ",i)
             for k in range(batch_size):
-                print("k ", k)
                 print("episode:", len(episode_length))
                 state = self.env.reset()
                 ep_reward = 0
