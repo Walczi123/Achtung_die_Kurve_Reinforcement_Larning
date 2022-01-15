@@ -1,6 +1,6 @@
 import argparse
 from json import load
-from game.achtung_process import AchtungProcess
+from v1.game.achtung_process import AchtungProcess
 import numpy as np
 from itertools import count
 import pickle
@@ -12,7 +12,7 @@ import torch.optim as optim
 from torch.distributions import Categorical
 from torch.autograd import Variable
 
-from game.config import WINDOW_HEIGHT, WINDOW_WIDTH
+from v1.game.config import WINDOW_HEIGHT, WINDOW_WIDTH
 
 # parser = argparse.ArgumentParser(description='PyTorch REINFORCE example')
 # parser.add_argument('--gamma', type=float, default=0.99, metavar='G',
@@ -73,9 +73,6 @@ class Policy():
         else:
             self.net = self.load(policy_net_name)
         sp = self.net.parameters()
-        print("self.net.parameters()", self.net.parameters())
-        for param in self.net.parameters():
-            print(type(param.data), param.size(), param.data)
         self.optimizer = optim.Adam(self.net.parameters(), lr=1.0e-5)
         # self.optimizer = optim.SGD(self.net.parameters(), lr=1e-2, momentum=0.9)
         self.eps = np.finfo(np.float32).eps.item()
@@ -115,12 +112,13 @@ class Policy():
         self.policy_history = Variable(torch.Tensor())
         self.reward_episode= []
 
-    def select_action(self, state):
+    def predict(self, state, saving:bool = True):
         state = torch.from_numpy(state.astype(np.float32)).unsqueeze(0) 
         probs = self.net(state)
         m = Categorical(probs)
         action = m.sample()
-        self.policy_history = torch.cat([self.policy_history, m.log_prob(action)])
+        if saving:
+            self.policy_history = torch.cat([self.policy_history, m.log_prob(action)])
         return action.item()
 
 
@@ -138,17 +136,18 @@ class CNN_Model():
         obs = self.env.reset()
 
 
-    def train(self, render = False):
+    def learn(self, total_timesteps:int, batch_size = 1, render = False):
         running_reward = 10.0
         episode_length = []
         i_episode = 0
 
-        for i in count(1):
-            for k in range(self.batch_size):
+        for i in range(total_timesteps):
+            for k in range(batch_size):
                 print("episode:", len(episode_length))
-                state, ep_reward = self.env.reset(), 0
+                state = self.env.reset()
+                ep_reward = 0
                 for t in range(1, 1000):  # Don't infinite loop while learning
-                    action = self.policy.select_action(state)
+                    action = self.policy.predict(state)
                     state, reward, done, _ = self.env.step(action)
                     if render:
                         self.env.render()
@@ -165,22 +164,32 @@ class CNN_Model():
             print("update policy")
             self.policy.update_policy()
 
-            if running_reward > self.min_reward:
-                print("Solved! Running reward is now {} and the last episode runs to {} time steps!".format(running_reward, t))
-                break
+            # if running_reward > self.min_reward:
+            #     print("Solved! Running reward is now {} and the last episode runs to {} time steps!".format(running_reward, t))
+            #     break
 
             # if (i_episode % 1000 == 0 or i_episode % 1000-1 == 0 or i_episode % 1000-2 == 0):
             #     np.save("images/ep" + str(i_episode) + "_" + str(t), state)
 
-            if (i_episode % 10 == 0):
-                print('\n Saving checkpoint ' + "net_" + str(i_episode) + ".ptmodel\n")
-                self.policy.dump("models/cnn_achtung0.ptmodel")
-                with open("models/loss.txt", "wb") as f:   
-                    pickle.dump(self.policy.loss_history, f)
-                with open("models/reward.txt", "wb") as f:   
-                    pickle.dump(self.policy.reward_history, f)
-                with open("models/length.txt", "wb") as f:   
-                    pickle.dump(episode_length, f) 
+            # if (i_episode % 10 == 0):
+            #     print('\n Saving checkpoint ' + "net_" + str(i_episode) + ".ptmodel\n")
+            #     self.policy.dump("models/cnn_achtung0.ptmodel")
+            #     with open("models/loss.txt", "wb") as f:   
+            #         pickle.dump(self.policy.loss_history, f)
+            #     with open("models/reward.txt", "wb") as f:   
+            #         pickle.dump(self.policy.reward_history, f)
+            #     with open("models/length.txt", "wb") as f:   
+            #         pickle.dump(episode_length, f)     
+    def predict(self, observations=None, state=None, deterministic=None):
+        if observations.shape[0] == 1:
+            observations = observations[0]
+        
+        action = self.policy.predict(observations, saving=False)
+        # state, reward, done, _ = self.env.step(action)
+        return [action], state
+
+    def save(self, path):
+        self.policy.dump(path)
 
 # y = torch.from_numpy(obs.astype(np.float32)).unsqueeze(0)
 # print(y.shape)

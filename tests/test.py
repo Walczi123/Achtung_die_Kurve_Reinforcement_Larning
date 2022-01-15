@@ -3,9 +3,9 @@ import pickle
 import matplotlib.pyplot as plt
 from stable_baselines3.common.evaluation import evaluate_policy
 
-ITERATIONS = 150
-LEARN_STEP = 100
-EVALUATE_POLICY_EPISODES = 100
+ITERATIONS = 10 #150
+LEARN_STEP = 10 #100
+EVALUATE_POLICY_EPISODES = 10 #100
 
 def test_and_save(paramas):
     (model, model_name) = paramas
@@ -37,13 +37,13 @@ def read_and_show_graph(model_name):
     with open(f"./tests/results/test_{model_name}_std", "rb") as f:   
         stds = np.array(pickle.load(f))
 
-    fig, ax = plt.figure()
+    # fig, ax = plt.figure()
     plt.plot(rewards)
     plt.xlabel('epoch (100 steps)')
     plt.ylabel('episode reward')
     plt.title(model_name)
 
-    ax.set_xticklabels([x for x in rewards])
+    # ax.set_xticklabels([x for x in rewards])
     # plt.xlabel.( [x for x in rewards] )
 
     plt.fill_between(range(len(rewards)),rewards-stds,rewards+stds,alpha=.3)

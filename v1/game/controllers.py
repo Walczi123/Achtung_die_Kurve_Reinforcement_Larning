@@ -28,16 +28,16 @@ class DQN_Controller(Controller):
         return action[0]
 
 class CNN_Controller(Controller):
-    def __init__(self, select_action):
+    def __init__(self, model):
         self.name = 'CNN'
-        self.select_action = select_action
+        self.model = model
 
     def make_move(self, args):
         if args[0]:
             print("nope")
-        action = self.select_action(args[1])
+        action = self.model.predict(args[1])
         print(action)
-        return action
+        return action[0]
 
 class Random_Controller(Controller):
     def __init__(self):
