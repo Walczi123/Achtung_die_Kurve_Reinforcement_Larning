@@ -1,9 +1,13 @@
 import argparse
+import sys
+# sys.path.append('./../../../')
+sys.path.append('.')
 from json import load
 from v1.game.achtung_process import AchtungProcess
 import numpy as np
 from itertools import count
 import pickle
+
 
 import torch
 import torch.nn as nn
@@ -140,9 +144,15 @@ class CNN_Model():
         running_reward = 10.0
         episode_length = []
         i_episode = 0
+        if total_timesteps/batch_size > 1:
+            total_timesteps = total_timesteps//batch_size 
+        else:
+            batch_size = 1
 
         for i in range(total_timesteps):
+            print("i ",i)
             for k in range(batch_size):
+                print("k ", k)
                 print("episode:", len(episode_length))
                 state = self.env.reset()
                 ep_reward = 0
@@ -206,4 +216,4 @@ def get_cnn_model():
 if __name__ == '__main__':
     # main()
     model = get_cnn_model()
-    model.train()
+    model.learn(total_timesteps = 5, batch_size= 2)
