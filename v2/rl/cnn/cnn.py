@@ -124,7 +124,7 @@ class Policy():
 
 
 class CNN_Model():
-    def __init__(self, batch_size = 100, min_reward = 250, policy_name=None):
+    def __init__(self, batch_size = 1, min_reward = 250, policy_name=None):
         
         self.policy = Policy(height=WINDOW_HEIGHT,width=WINDOW_WIDTH,c=3,na=3,policy_net_name=policy_name)
         self.env = AchtungProcess(n=1, height=WINDOW_HEIGHT, width=WINDOW_WIDTH)

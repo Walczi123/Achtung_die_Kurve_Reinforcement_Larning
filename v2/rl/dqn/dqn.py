@@ -1,10 +1,12 @@
 import sys
 sys.path.append('./../../../')
 from v2.gym_achtung.envs.achtungdiekurve import AchtungDieKurve;
+from stable_baselines3.common.env_checker import check_env
 from stable_baselines3 import DQN
 
 def get_dqn_cnn_model():
     env = AchtungDieKurve()
+    check_env(env)
     return DQN("CnnPolicy", 
             env, 
             buffer_size=100,
