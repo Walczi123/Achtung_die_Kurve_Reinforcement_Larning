@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 from stable_baselines3.common.evaluation import evaluate_policy
 
 
-ITERATIONS = 10 #150
-LEARN_STEP = 10 #100
-EVALUATE_POLICY_EPISODES = 10 #100
+ITERATIONS = 2 #150
+LEARN_STEP = 2 #100
+EVALUATE_POLICY_EPISODES = 2 #100
 
 def test_and_save(paramas):
     start_time = time.time()
@@ -73,11 +73,11 @@ def read_and_show_graph(model_name):
     plt.xticks(range(len(my_xticks)), my_xticks)
 
     plt.fill_between(range(len(rewards)),rewards-rewards_stds,rewards+rewards_stds,alpha=.3)
-    plt.savefig(f'./tests/plots/{model_name}.png')
-    
+    plt.savefig(f'./achtung_tests/plots/{model_name}_rewards.png')
+    plt.close()
     
     # fig, ax = plt.figure()
-    plt.plot(length)
+    plt.plot(lengths)
     plt.xlabel('epoch')
     plt.ylabel('episode length')
     plt.title(model_name)
@@ -86,4 +86,5 @@ def read_and_show_graph(model_name):
     plt.xticks(range(len(my_xticks)), my_xticks)
 
     plt.fill_between(range(len(lengths)),lengths-length_stds,lengths+length_stds,alpha=.3)
-    plt.savefig(f'./tests/plots/{model_name}.png')
+    plt.savefig(f'./achtung_tests/plots/{model_name}_lengths.png')
+
