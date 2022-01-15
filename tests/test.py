@@ -39,13 +39,13 @@ def read_and_show_graph(model_name):
 
     # fig, ax = plt.figure()
     plt.plot(rewards)
-    plt.xlabel('epoch (100 steps)')
+    plt.xlabel('epoch')
     plt.ylabel('episode reward')
     plt.title(model_name)
 
-    # ax.set_xticklabels([x for x in rewards])
-    # plt.xlabel.( [x for x in rewards] )
+    my_xticks = [x for x in range(LEARN_STEP, (ITERATIONS+1)*LEARN_STEP, ITERATIONS)]
+    print(my_xticks)
+    plt.xticks(range(len(my_xticks)), my_xticks)
 
     plt.fill_between(range(len(rewards)),rewards-stds,rewards+stds,alpha=.3)
-    plt.show()
-    # plt.savefig(f'./tests/plots/{model_name}.png')
+    plt.savefig(f'./tests/plots/{model_name}.png')
