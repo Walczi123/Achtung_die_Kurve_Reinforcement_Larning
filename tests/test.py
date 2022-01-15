@@ -1,4 +1,6 @@
+import numpy as np
 import pickle
+import matplotlib.pyplot as plt
 from stable_baselines3.common.evaluation import evaluate_policy
 
 ITERATIONS = 150
@@ -30,7 +32,20 @@ def test_and_save(paramas):
     print("   saved")
 
 def read_and_show_graph(model_name):
-    with open(f"./tests/results/test_{model_name}_reward.txt", "rb") as f:   
-        rewards = pickle.load(f)
+    with open(f"./tests/results/test_{model_name}_reward", "rb") as f:   
+        rewards = np.array(pickle.load(f))
     with open(f"./tests/results/test_{model_name}_std", "rb") as f:   
-        stds = pickle.load(f)
+        stds = np.array(pickle.load(f))
+
+    fig, ax = plt.figure()
+    plt.plot(rewards)
+    plt.xlabel('epoch (100 steps)')
+    plt.ylabel('episode reward')
+    plt.title(model_name)
+
+    ax.set_xticklabels([x for x in rewards])
+    # plt.xlabel.( [x for x in rewards] )
+
+    plt.fill_between(range(len(rewards)),rewards-stds,rewards+stds,alpha=.3)
+    plt.show()
+    # plt.savefig(f'./tests/plots/{model_name}.png')
