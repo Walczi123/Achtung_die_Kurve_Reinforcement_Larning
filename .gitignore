@@ -1,7 +1,7 @@
 *.zip
-tests/models/*
-tests/results/*
-tests/copy/*
+achtung_tests/models/*
+achtung_tests/results/*
+achtung_tests/copy/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
