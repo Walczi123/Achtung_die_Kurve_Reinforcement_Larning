@@ -1,0 +1,9 @@
+py .\achtung_tests\v1\a2c_cnn_tests_v1.py --- 41064.70890927315 seconds ---
+py .\achtung_tests\v1\a2c_mlp_tests_v1.py --- 35363.485244989395 seconds ---
+py .\achtung_tests\v1\dqn_cnn_tests_v1.py --- 39741.447890520096 seconds ---
+py .\achtung_tests\v1\dqn_mpl_tests_v1.py --- 34885.45022082329 seconds ---
+py .\achtung_tests\v1\cnn_tests_v1.py --- 7131.868113517761 seconds ---
+
+py .\achtung_tests\v2\a2c_mlp_tests_v2.py --- 4375.719004869461 seconds ---
+py .\achtung_tests\v2\dqn_mpl_tests_v2.py --- 3220.172171831131 seconds ---
+py .\achtung_tests\v2\cnn_tests_v2.py --- 7278.707060575485 seconds ---

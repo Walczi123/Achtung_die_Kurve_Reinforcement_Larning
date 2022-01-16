@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 from stable_baselines3.common.evaluation import evaluate_policy
 
 
-ITERATIONS = 2 #150
-LEARN_STEP = 2 #100
-EVALUATE_POLICY_EPISODES = 2 #100
+ITERATIONS = 20
+LEARN_STEP = 100
+EVALUATE_POLICY_EPISODES = 100
 
 def test_and_save(paramas):
     start_time = time.time()
