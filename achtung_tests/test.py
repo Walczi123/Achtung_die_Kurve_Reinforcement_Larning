@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from stable_baselines3.common.evaluation import evaluate_policy
 
 
-ITERATIONS = 20
+ITERATIONS = 150
 LEARN_STEP = 100
 EVALUATE_POLICY_EPISODES = 100
 
@@ -63,28 +63,26 @@ def read_and_show_graph(model_name):
     with open(f"./achtung_tests/results/test_{model_name}_length_std", "rb") as f:   
         length_stds = np.array(pickle.load(f))
 
-    # fig, ax = plt.figure()
-    plt.plot(rewards)
+    range_x = list(range(LEARN_STEP,(ITERATIONS+1)*LEARN_STEP,LEARN_STEP))
+
+    my_dpi= 100
+    plt.figure(figsize=(1000/my_dpi, 600/my_dpi), dpi=my_dpi)
+    plt.plot(range_x, rewards)
     plt.xlabel('epoch')
     plt.ylabel('episode reward')
     plt.title(model_name)
 
-    my_xticks = [x for x in range(LEARN_STEP, (ITERATIONS+1)*LEARN_STEP, ITERATIONS)]
-    plt.xticks(range(len(my_xticks)), my_xticks)
-
-    plt.fill_between(range(len(rewards)),rewards-rewards_stds,rewards+rewards_stds,alpha=.3)
+    plt.fill_between(range_x,rewards-rewards_stds,rewards+rewards_stds,alpha=.3)
     plt.savefig(f'./achtung_tests/plots/{model_name}_rewards.png')
     plt.close()
     
-    # fig, ax = plt.figure()
-    plt.plot(lengths)
+    my_dpi= 100
+    plt.figure(figsize=(1000/my_dpi, 600/my_dpi), dpi=my_dpi)
+    plt.plot(range_x,lengths)
     plt.xlabel('epoch')
     plt.ylabel('episode length')
     plt.title(model_name)
 
-    my_xticks = [x for x in range(LEARN_STEP, (ITERATIONS+1)*LEARN_STEP, ITERATIONS)]
-    plt.xticks(range(len(my_xticks)), my_xticks)
-
-    plt.fill_between(range(len(lengths)),lengths-length_stds,lengths+length_stds,alpha=.3)
+    plt.fill_between(range_x,lengths-length_stds,lengths+length_stds,alpha=.3)
     plt.savefig(f'./achtung_tests/plots/{model_name}_lengths.png')
 
