@@ -18,14 +18,16 @@ MAGENTA = (255, 0, 255)
 GREEN = (0, 255, 0)
 CYAN = (0,255,255)
 ORANGE = (255, 69, 0)
-COLORS = [MAGENTA,GREEN,CYAN,ORANGE]
+RED = (255,0,0)
+BLUE = (0,0,255)
+COLORS = [MAGENTA,GREEN,CYAN,ORANGE,RED,BLUE]
 COLORS_str = ['magenta','green','cyan','orange']
 
 # keys
-LEFT_KEYS = [pygame.K_LEFT, pygame.K_a, pygame.K_v, pygame.K_k]
-LEFT_KEYS_str = ['<-', 'a', 'v', 'k']
-RIGHT_KEYS = [pygame.K_RIGHT, pygame.K_s, pygame.K_b, pygame.K_l]
-RIGHT_KEYS_str = ['->','s','b','l']
+LEFT_KEYS = [pygame.K_LEFT, pygame.K_a, pygame.K_v, pygame.K_k, pygame.K_n, pygame.K_t]
+LEFT_KEYS_str = ['<-', 'a', 'v', 'k', 'n', 't']
+RIGHT_KEYS = [pygame.K_RIGHT, pygame.K_s, pygame.K_b, pygame.K_l, pygame.K_m, pygame.K_y]
+RIGHT_KEYS_str = ['->','s','b','l', 'm', 'y']
 
 #rewards
 LIVING_REWARD = 1
