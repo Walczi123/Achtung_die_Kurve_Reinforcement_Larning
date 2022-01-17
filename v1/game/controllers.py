@@ -27,6 +27,17 @@ class DQN_Controller(Controller):
         print(action)
         return action[0]
 
+class A2C_Controller(Controller):
+    def __init__(self, model):
+        self.name = 'A2C'
+        self.model = model
+
+    def make_move(self, args):
+        if args[0]:
+            print("nope")
+        action = self.model.predict(args[1])
+        return action[0]
+
 class CNN_Controller(Controller):
     def __init__(self, model):
         self.name = 'CNN'
@@ -36,7 +47,6 @@ class CNN_Controller(Controller):
         if args[0]:
             print("nope")
         action = self.model.predict(args[1])
-        print(action)
         return action[0]
 
 class Random_Controller(Controller):
@@ -47,5 +57,4 @@ class Random_Controller(Controller):
         if args[0]:
             print("nope")
         action = random.choice([0,1,2])
-        print(action)
         return action
