@@ -128,7 +128,7 @@ class Policy():
 
 
 class CNN_Model():
-    def __init__(self, batch_size = 100, min_reward = 250, policy_name=None):
+    def __init__(self, batch_size = 20, min_reward = 250, policy_name=None):
         
         self.policy = Policy(height=WINDOW_HEIGHT,width=WINDOW_WIDTH,c=3,na=3,policy_net_name=policy_name)
         self.env = AchtungProcess(n=1, height=WINDOW_HEIGHT, width=WINDOW_WIDTH)
@@ -140,7 +140,7 @@ class CNN_Model():
         obs = self.env.reset()
 
 
-    def learn(self, total_timesteps:int, batch_size = 1, render = False):
+    def learn(self, total_timesteps:int, batch_size = 20, render = False):
         running_reward = 10.0
         episode_length = []
         i_episode = 0
