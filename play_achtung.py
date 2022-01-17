@@ -18,4 +18,4 @@ if __name__ == "__main__":
     game = Achtung(n=len(players_controllers), players_controllers=players_controllers, render_game=True)  
     obs = game.reset()
     winner = game.play()
-    print(f'winner {players_controllers[winner].name}')
+    print(f'Winner is {players_controllers[winner].name}')

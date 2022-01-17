@@ -24,7 +24,6 @@ class DQN_Controller(Controller):
         if args[0]:
             print("nope")
         action = self.model.predict(args[1])
-        print(action)
         return action[0]
 
 class A2C_Controller(Controller):
