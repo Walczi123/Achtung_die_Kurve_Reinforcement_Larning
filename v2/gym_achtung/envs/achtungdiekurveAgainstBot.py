@@ -86,7 +86,6 @@ class AchtungDieKurveAgainstBot(AchtungDieKurve):
         self.init()
         state = self.getGameState()
         return state
-        #super().reset()
 
 
 if __name__ == "__main__":

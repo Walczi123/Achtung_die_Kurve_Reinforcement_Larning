@@ -18,19 +18,6 @@ from torch.autograd import Variable
 
 from v1.game.config import WINDOW_HEIGHT, WINDOW_WIDTH
 
-# parser = argparse.ArgumentParser(description='PyTorch REINFORCE example')
-# parser.add_argument('--gamma', type=float, default=0.99, metavar='G',
-#                     help='discount factor (default: 0.99)')
-# parser.add_argument('--seed', type=int, default=543, metavar='N',
-#                     help='random seed (default: 543)')
-# parser.add_argument('--render', action='store_true',
-#                     help='render the environment')
-# parser.add_argument('--log-interval', type=int, default=1, metavar='N',
-#                     help='interval between training status logs (default: 10)')
-# parser.add_argument('--save-interval', type=int, default=1, metavar='N',
-#                     help='interval between training status logs (default: 1000)')
-# args = parser.parse_args()
-
 class CNN(nn.Module):
     def __init__(self, h, w, c, outputs):
         super(CNN, self).__init__()
@@ -78,7 +65,6 @@ class Policy():
             self.net = self.load(policy_net_name)
         sp = self.net.parameters()
         self.optimizer = optim.Adam(self.net.parameters(), lr=1.0e-5)
-        # self.optimizer = optim.SGD(self.net.parameters(), lr=1e-2, momentum=0.9)
         self.eps = np.finfo(np.float32).eps.item()
 
     def dump(self, model_file):
@@ -171,23 +157,7 @@ class CNN_Model():
                 i_episode += 1
             print("update policy")
             self.policy.update_policy()
-
-            # if running_reward > self.min_reward:
-            #     print("Solved! Running reward is now {} and the last episode runs to {} time steps!".format(running_reward, t))
-            #     break
-
-            # if (i_episode % 1000 == 0 or i_episode % 1000-1 == 0 or i_episode % 1000-2 == 0):
-            #     np.save("images/ep" + str(i_episode) + "_" + str(t), state)
-
-            # if (i_episode % 10 == 0):
-            #     print('\n Saving checkpoint ' + "net_" + str(i_episode) + ".ptmodel\n")
-            #     self.policy.dump("models/cnn_achtung0.ptmodel")
-            #     with open("models/loss.txt", "wb") as f:   
-            #         pickle.dump(self.policy.loss_history, f)
-            #     with open("models/reward.txt", "wb") as f:   
-            #         pickle.dump(self.policy.reward_history, f)
-            #     with open("models/length.txt", "wb") as f:   
-            #         pickle.dump(episode_length, f)     
+  
     def predict(self, observations=None, state=None, deterministic=None):
         if observations.shape[0] == 1:
             observations = observations[0]
@@ -202,19 +172,10 @@ class CNN_Model():
     def load(self, path):
         self.policy.load(path)
 
-# y = torch.from_numpy(obs.astype(np.float32)).unsqueeze(0)
-# print(y.shape)
-# model = CNN(80,80,4,2)
-# model.forward(y)
-
-
 def get_cnn_model():
-    # model = CNN_Model(batch_size=100, min_reward=250, policy_name="models/cnn_achtung")
     model = CNN_Model(batch_size=100, min_reward=250)
     return model
-
-            
+         
 if __name__ == '__main__':
-    # main()
     model = get_cnn_model()
     model.learn(total_timesteps = 5, batch_size= 2)

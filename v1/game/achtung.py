@@ -21,10 +21,6 @@ pygame.init()
 
 class Achtung(gym.Env):
     def __init__(self,n=1,id=0, players_controllers:list = None, render_game:bool = False, speed:int = 12, width:int = WINDOW_WIDTH, height:int=WINDOW_HEIGHT):
-        # print('Achtung Die Kurve!')
-        # pygame.display.set_caption('Achtung Die Kurve!')
-        
-        # pygame
         self.speed = speed
         self.border = WINDOW_BORDER
         self.window_width = width
@@ -33,7 +29,6 @@ class Achtung(gym.Env):
             self.border = min(self.window_height, self.window_width)/4
         self.window_buffer = 1
         self.fps_clock = pygame.time.Clock()
-        # print((self.window_width, self.window_height))
         self.screen = pygame.display.set_mode((self.window_width, self.window_height))
         self.display = pygame.Surface(self.screen.get_size())
         self.render_game = render_game

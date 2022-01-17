@@ -10,7 +10,6 @@ if __name__ == "__main__":
     model = get_dqn_cnn_model()
     # model.load("./rl/dqn/dqn_achtung")
     dqn_controller = DQN_Controller(model)
-    # players_controllers = [Man_Controller(), dqn_controller]
 
     cnn_controller = CNN_Controller(get_cnn_model())
     players_controllers = [cnn_controller, dqn_controller, Random_Controller()]

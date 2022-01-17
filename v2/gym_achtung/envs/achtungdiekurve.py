@@ -2,7 +2,6 @@ import pygame
 import sys
 import math
 import random
-#import .base
 import time
 import random
 from gym import spaces

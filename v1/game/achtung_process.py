@@ -19,7 +19,6 @@ class AchtungProcess(gym.Env):
       done = False
       for t in range(self.frame_skip):
           obs, reward, done, info = self.env.step(action)
-          # print("   r = ",reward)
           _obs.append(obs)
           _reward.append(reward)
 
@@ -27,7 +26,6 @@ class AchtungProcess(gym.Env):
             break
 
       obs_new = np.maximum(_obs[-1], _obs[-2] if len(_obs) > 1 else _obs[-1])
-      # self.state = np.roll(self.state, shift=-1,axis=0)
       self.state = obs_new
 
       return self.state, np.sum(_reward), done, {}   
@@ -41,34 +39,4 @@ class AchtungProcess(gym.Env):
 
     def render(self):
       self.env.render()
-
-
-# env = AchtungProcess(1)
-# env.env.render_game = True
-# env.env.speed = 0
-# obs = env.reset()
-
-# n_games = 0
-# running_reward = []
-# rewards = []
-
-# while n_games < 100:
-#     # Random action
-#     action = env.action_space.sample() + 1
-#     print("action: ", action)
-#     obs, reward, done, info = env.step(action)
-#     running_reward.append(reward)
-
-#     if done:
-#         rewards.append(sum(running_reward))
-#         running_reward = []
-#         # filename = "images/game_{}".format(env.games-1)
-#         # os.rename(filename, filename + "_{}".format(int(rewards[-1])))
-#         obs = env.reset()
-#         n_games += 1
-
-# print("test complete")
-# print("   reward (avg): ", np.mean(rewards))
-# print("   reward (std): ", np.std(rewards))
-
 
