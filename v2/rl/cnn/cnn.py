@@ -82,7 +82,7 @@ class Policy():
 
     def load(self, policy_net_name):
         print("loading saved network")
-        return torch.load(str(policy_net_name) + "0.ptmodel")
+        self.net = torch.load(str(policy_net_name))
 
 
     def update_policy(self):
@@ -195,6 +195,9 @@ class CNN_Model():
 
     def save(self, path):
         self.policy.dump(path)
+    
+    def load(self, path):
+        self.policy.load(path)
 
 # y = torch.from_numpy(obs.astype(np.float32)).unsqueeze(0)
 # print(y.shape)
