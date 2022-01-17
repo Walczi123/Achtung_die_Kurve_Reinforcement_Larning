@@ -1,5 +1,4 @@
 import gym
-# from baselines import deepq
 from stable_baselines3 import DQN
 from gym.wrappers import Monitor
 import pickle
@@ -19,8 +18,6 @@ def main():
     outputPath = './Sharks/' + timestr
     os.makedirs(outputPath)
 
-    #env = Monitor(env, directory= '/Monitor', force=True)
-
     meanRewards = []
     qValues = []
     numberOfEvaluations = 50
@@ -37,7 +34,6 @@ def main():
             action = getActionQvalue[0]
 
             obs, rew, done, _ = env.step(action)
-            # time.sleep(0.1)
 
             episode_rew += rew
             episode_qVal.append(getActionQvalue[1])
